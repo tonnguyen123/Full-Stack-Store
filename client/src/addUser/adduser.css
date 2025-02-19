@@ -1,0 +1,34 @@
+.addUser{
+    background-color: white;
+    width: 25%;
+    margin: 20px auto;
+    padding: 40px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px rgba(0,0,0,0.09);
+  
+}
+
+.addUser h3{
+    text-align: center;
+    padding-top: 20%;
+    color: green;
+    font-weight: bold;
+}
+
+.addUserForm .inputGroup{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 4%;
+    
+}
+
+.addUser .inputGroup input{
+    padding: 5px;
+}
+
+.addUser .inputGroup button{
+    width: 40%;
+    align-self: center;
+    margin: 5%;
+}
