@@ -4,8 +4,12 @@
   "description": "mern stack",
   "type": "module",
   "scripts": {
-    "start": "node index.js"
-  },
+  "start": "react-scripts start",
+  "build": "react-scripts build",
+  "test": "react-scripts test",
+  "eject": "react-scripts eject"
+}
+,
   "author": "Ton",
   "license": "ISC",
   "dependencies": {
