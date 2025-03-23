@@ -1,7 +1,9 @@
 .Update{
     background-color: white;
-    width: 25%;
-    margin: 20px auto;
+    width: 30%;
+    min-width: 400px;
+    margin: 15% auto;
+    
     padding: 40px;
     border-radius: 5px;
     box-shadow: 1px 1px 10px rgba(0,0,0,0.09);
@@ -10,26 +12,36 @@
 
 .Update h3{
     text-align: center;
-    padding-top: 20%;
     color: green;
     font-weight: bold;
+    padding-top: 50px;
 }
 
-.Update .inputGroup{
-    width: 100%;
+.UpdateForm .inputGroup{
+    width: 300px;
     display: flex;
     flex-direction: column;
-    margin: 4%;
+    
+    margin: 10px auto;
     
 }
 
 .Update .inputGroup input{
     padding: 5px;
+    width: 80%;
 }
 
-.buttonGroup{
-    display: flex;
-    width: 40%;
-    margin: 0 auto;
-    gap: 5%;
+.Update .inputGroup AddressAutoComplete{
+    padding: 5px;
+    width: 50%;
+}
+
+.UpdateForm .inputGroup label{
+    font-weight: bold;
+}
+
+.Update .UpdateForm .buttonGroup button{
+    margin-left: 20%;
+    margin-top: 10px;
+
 }

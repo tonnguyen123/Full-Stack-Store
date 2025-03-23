@@ -1,0 +1,40 @@
+.MainPage{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 20%;
+    gap: 30px;
+}
+
+.MainPage button{
+    width: 200px;
+    height: 200px;
+    border-radius: 20px;
+    font-size: 20px;
+    
+}
+
+.MainPage .productButton{
+    background-color: 
+    rgb(187, 251, 152);
+}
+
+.MainPage .productButton:hover{
+    background-color: palegreen
+}
+
+
+
+.MainPage .userButton{
+    background-color: aqua;
+}
+
+.MainPage .userButton:hover{
+    background-color: rgb(152, 154, 251)
+}
+
+.MainPage .productButton i{
+    margin:10px;
+
+}
+
