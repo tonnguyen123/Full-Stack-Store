@@ -1,0 +1,12 @@
+.topButtons{
+    display: flex;
+    margin-top: 10px;
+    justify-content: center;
+    gap: 10px;
+}
+
+.rating {
+    display: flex;
+    gap: 5px;
+}
+

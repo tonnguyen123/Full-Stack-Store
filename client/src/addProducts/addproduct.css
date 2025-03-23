@@ -1,0 +1,47 @@
+.addUser{
+    background-color: white;
+    width: 30%;
+    min-width: 400px;
+    margin: 10% auto;
+    
+    padding: 40px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px rgba(0,0,0,0.09);
+  
+}
+
+.addUser h3{
+    text-align: center;
+    color: rgb(159, 216, 159);
+    font-weight: bold;
+}
+
+.addUserForm .inputGroup{
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    
+    margin: 10px auto;
+    
+}
+
+.addUser .inputGroup input{
+    padding: 5px;
+    width: 80%;
+}
+
+.addUser .inputGroup AddressAutoComplete{
+    padding: 5px;
+    width: 50%;
+}
+
+.addUser .inputGroup button{
+    width: 30%;
+    min-width: 100px;
+    align-self: center;
+    margin: 5%;
+}
+
+.addUserForm .inputGroup label{
+    font-weight: bold;
+}

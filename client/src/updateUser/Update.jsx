@@ -2,17 +2,20 @@ import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import './update.css';
+import AddressAutoComplete from '../addUser/AddressAutoComplete';
 
 export const Update = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [user, setUser] = useState({ name: "", email: "", address: "" });
+  
 
   // Memoize FetchUserInfo to avoid recreating it on every render.
   const FetchUserInfo = useCallback(async () => {
     try {
       const currUser = await axios.get("http://localhost:8000/api/user/" + id);
       setUser(currUser.data);
+      
     } catch (error) {
       console.log("Error fetching user's info:", error);
     }
@@ -76,21 +79,31 @@ export const Update = () => {
             value={user.email}
             onChange={inputHandler}
             autoComplete='off'
-            placeholder='Enter your email'
+            placeholder='Enter the email'
+          />
+        </div>
+        <div className='inputGroup'>
+          <label htmlFor='phone'>Phone number: </label>
+          <input
+            type='tel'
+            id='phone'
+            name='phone'
+            value={user.phone}
+            onChange={inputHandler}
+            autoComplete='off'
+            placeholder='Enter phone number'
           />
         </div>
         <div className='inputGroup'>
           <label htmlFor='address'>Address: </label>
-          <input
-            type='text'
-            id='address'
-            name='address'
-            value={user.address}
-            onChange={inputHandler}
-            autoComplete='off'
-            placeholder='Enter your address'
-          />
+          <AddressAutoComplete
+          currUser = {user}
+          onSelect = {(selectedAdd) =>
+                          setUser((prevUser) => ({...prevUser, address:selectedAdd}))
+          
+          }/>
         </div>
+        
         <div className='buttonGroup'>
           <button type="button" className="btn btn-primary" onClick={saveChange}>
             Save Changes

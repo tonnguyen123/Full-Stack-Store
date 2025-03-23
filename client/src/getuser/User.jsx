@@ -14,6 +14,7 @@ export const User = () => {
       // Ensure res.data is an array before setting state
       if (Array.isArray(res.data)) {
         setUser(res.data);
+        
       } else {
         console.error("Data is not an array:", res.data);
         setUser([]); // Fallback to empty array
@@ -34,9 +35,7 @@ export const User = () => {
 
     try {
       await axios.delete(`http://localhost:8000/api/delete/user/${userId}`);
-      alert("User deleted successfully!");
-
-      // Refetch the updated data
+      
       await fetchDat();
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -44,7 +43,15 @@ export const User = () => {
   };
 
   return (
+    <div>
+      <div>
+      
+        <button onClick={()=> navigate('/')}>
+        <i class="fa-solid fa-store"></i>
+          Store Page</button>
+      </div>
     <div className='userTable'>
+      
       <Link to="/add" type="button" className="btn btn-primary">
         Add user <i className="fa-solid fa-user-plus"></i>
       </Link>
@@ -57,11 +64,12 @@ export const User = () => {
         <table className='table table-bordered'>
           <thead>
             <tr>
-              <th scope='col'>id</th>
-              <th scope='col'>name</th>
-              <th scope='col'>address</th>
-              <th scope='col'>email</th>
-              <th scope='col'>action</th>
+              <th scope='col'>ID</th>
+              <th scope='col'>Name</th>
+              <th scope='col'>Phone</th>
+              <th scope='col'>Address</th>
+              <th scope='col'>Email</th>
+              <th scope='col'>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -70,6 +78,7 @@ export const User = () => {
                 <tr key={user._id || index}>
                   <td>{index + 1}</td>
                   <td>{user.name}</td>
+                  <td>{user.phone}</td>
                   <td>{user.address}</td>
                   <td>{user.email}</td>
                   <td className='actions'>
@@ -84,9 +93,19 @@ export const User = () => {
                     <button
                       type="button"
                       className="btn btn-danger"
+                      style={{ marginRight: '10px' }}
                       onClick={() => deleteUser(user._id || user.id)}
                     >
                       <i className="fa-solid fa-trash"></i>
+                    </button>
+
+                    <button
+                     onClick={() => navigate(`/profile/${user._id}`)}
+                      type="button"
+                      className="btn btn-info"
+                    >
+                      <i class="fa-solid fa-user"></i>
+
                     </button>
                   </td>
                 </tr>
@@ -95,6 +114,7 @@ export const User = () => {
           </tbody>
         </table>
       )}
+    </div>
     </div>
   );
 };
