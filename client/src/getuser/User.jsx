@@ -6,11 +6,12 @@ import { Link, useNavigate } from 'react-router-dom';
 export const User = () => {
   const navigate = useNavigate();
   const [users, setUser] = useState([]);
+  const backEndURL = process.env.BACK_END_URL;
 
   // Fetch data from API
   const fetchDat = async () => {
     try {
-      const res = await axios.get(`${process.env.BACK_END_URL}/api/users`);
+      const res = await axios.get('backEndURL/api/users');
       // Ensure res.data is an array before setting state
       if (Array.isArray(res.data)) {
         setUser(res.data);
@@ -34,7 +35,7 @@ export const User = () => {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`${process.env.BACK_END_URL}/api/delete/user/${userId}`);
+      await axios.delete(`backEndURL/api/delete/user/${userId}`);
       
       await fetchDat();
     } catch (error) {
