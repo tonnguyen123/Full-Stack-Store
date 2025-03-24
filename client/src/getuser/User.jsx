@@ -10,7 +10,7 @@ export const User = () => {
   // Fetch data from API
   const fetchDat = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/users");
+      const res = await axios.get(`${process.env.BACK_END_URL}/api/users`);
       // Ensure res.data is an array before setting state
       if (Array.isArray(res.data)) {
         setUser(res.data);
@@ -34,7 +34,7 @@ export const User = () => {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://localhost:8000/api/delete/user/${userId}`);
+      await axios.delete(`${process.env.BACK_END_URL}/api/delete/user/${userId}`);
       
       await fetchDat();
     } catch (error) {
