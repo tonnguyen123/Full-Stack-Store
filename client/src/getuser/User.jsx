@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import './user.css';
 import axios from "axios";
 import { Link, useNavigate } from 'react-router-dom';
@@ -6,16 +6,14 @@ import { Link, useNavigate } from 'react-router-dom';
 export const User = () => {
   const navigate = useNavigate();
   const [users, setUser] = useState([]);
-  const backEndURL = process.env.REACT_APP_BACK_END_URL; 
+  const backEndURL = process.env.REACT_APP_BACK_END_URL;
 
-  // Fetch data from API
-  const fetchDat = async () => {
+  // Memoize fetchDat to avoid unnecessary re-renders
+  const fetchDat = useCallback(async () => {
     try {
       const res = await axios.get(`${backEndURL}/api/users`);
-      // Ensure res.data is an array before setting state
       if (Array.isArray(res.data)) {
         setUser(res.data);
-        
       } else {
         console.error("Data is not an array:", res.data);
         setUser([]); // Fallback to empty array
@@ -24,19 +22,18 @@ export const User = () => {
       console.log("Error while fetching data.", error);
       setUser([]); // Ensure we set to an array in case of error
     }
-  };
+  }, [backEndURL]); // Add dependencies here if needed
 
   useEffect(() => {
     fetchDat();
-  }, []);
+  }, [fetchDat]); // Now it's safe to include fetchDat in the dependency array
 
   const deleteUser = async (userId) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this user?");
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`${backEndURL}/api/delete/user/${userId}`); 
-      
+      await axios.delete(`${backEndURL}/api/delete/user/${userId}`);
       await fetchDat();
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -46,37 +43,34 @@ export const User = () => {
   return (
     <div>
       <div>
-      
-        <button onClick={()=> navigate('/')} type="button"
-                      className="btn btn-info">
-        <i class="fa-solid fa-store"></i>
-          Store Page</button>
+        <button onClick={() => navigate('/')} type="button" className="btn btn-info">
+          <i className="fa-solid fa-store"></i>
+          Store Page
+        </button>
       </div>
-    <div className='userTable'>
-      
-      <Link to="/add" type="button" className="btn btn-primary">
-        Add user <i className="fa-solid fa-user-plus"></i>
-      </Link>
-      {users.length === 0 ? (
-        <div className='noDat'>
-          <h3>No user data in the database</h3>
-          <p>Please click 'Add user' button to add user to database.</p>
-        </div>
-      ) : (
-        <table className='table table-bordered'>
-          <thead>
-            <tr>
-              <th scope='col'>ID</th>
-              <th scope='col'>Name</th>
-              <th scope='col'>Phone</th>
-              <th scope='col'>Address</th>
-              <th scope='col'>Email</th>
-              <th scope='col'>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user, index) => {
-              return (
+      <div className='userTable'>
+        <Link to="/add" type="button" className="btn btn-primary">
+          Add user <i className="fa-solid fa-user-plus"></i>
+        </Link>
+        {users.length === 0 ? (
+          <div className='noDat'>
+            <h3>No user data in the database</h3>
+            <p>Please click 'Add user' button to add user to database.</p>
+          </div>
+        ) : (
+          <table className='table table-bordered'>
+            <thead>
+              <tr>
+                <th scope='col'>ID</th>
+                <th scope='col'>Name</th>
+                <th scope='col'>Phone</th>
+                <th scope='col'>Address</th>
+                <th scope='col'>Email</th>
+                <th scope='col'>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user, index) => (
                 <tr key={user._id || index}>
                   <td>{index + 1}</td>
                   <td>{user.name}</td>
@@ -100,23 +94,20 @@ export const User = () => {
                     >
                       <i className="fa-solid fa-trash"></i>
                     </button>
-
                     <button
-                     onClick={() => navigate(`/profile/${user._id}`)}
+                      onClick={() => navigate(`/profile/${user._id}`)}
                       type="button"
                       className="btn btn-info"
                     >
-                      <i class="fa-solid fa-user"></i>
-
+                      <i className="fa-solid fa-user"></i>
                     </button>
                   </td>
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      )}
-    </div>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
     </div>
   );
 };
