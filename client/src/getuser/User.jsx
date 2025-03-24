@@ -27,7 +27,7 @@ export const User = () => {
 
   useEffect(() => {
     fetchDat();
-  }, []);
+  }, [fetchDat]);
 
   const deleteUser = async (userId) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this user?");
