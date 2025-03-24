@@ -6,9 +6,6 @@ import "./product.css";
 export const Product = () => {
   const [productArray, setArray] = useState([]);
   const [categories, setCategory] = useState([]);
-  const [currUser,setUser] = useState();
-  const [Cart,setCart] = useState([]);
-
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
 
@@ -35,44 +32,23 @@ export const Product = () => {
     }
   };
 
-  const fetchCart = async () => {
+    useEffect(() => {
+      const fetchCart = async () => {
           try {
               const currUser = await axios.get(`http://localhost:8000/api/user/${id}`);
-              setUser(currUser.data);
-              
               const CartItems = currUser.data.cart;
               console.log("current user is" + CartItems.length);
               setCartCount(CartItems.length);
-
-              setCart(CartItems);
           } catch (error) {
               console.log("Error getting items in the cart.");
           }
-    };
+      };
+  
+      fetchItems();
+      fetchCart();
+  }, [id]); // Add id as a dependency since it may change
+  
 
-
-
-
-
-
-  useEffect(() => {
-    fetchItems();
-    fetchCart();
-    
-  }, []);
-
-  const getCartCount = async() =>{
-    const userCart = await axios.get(`http://localhost:8000/api/cart/${user._id}`);
-    let cartSize = userCart.data.length;
-    if(cartSize > 0){
-      setCartCount(cartSize);
-    }
-    else{
-      
-    }
-   
-
- }
   const AdditemToCart = async(item, event) => {
     event.stopPropagation(); // Prevent navigation
     event.preventDefault();  // Prevent default link behavior

@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from "axios";
 import JsBarcode from "jsbarcode";
-import { useParams, Link, useLocation, useNavigate  } from 'react-router-dom';
+import { useParams, Link, useNavigate  } from 'react-router-dom';
 import './profile.css';
-import { Product } from '../Producsts/Product';
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
@@ -19,25 +18,6 @@ export const Profile = () => {
   const [showTransaction, setShowTransaction] = useState(false);
   const [transactions, setTransaction] = useState([]);
   const navigate = useNavigate();
-
- 
-  
-  const fetchData = async() =>{
-    try{
-      const currUser = await axios.get(`http://localhost:8000/api/user/${id}`);
-
-      setUser(currUser.data);
-      setBarcode(currUser.data.memberNum);
-      
-      console.log(user.memberNum);
-
-
-    }
-    catch{
-      console.log("Error showing user's profile");
-
-    }
-  }
 
   
   const generateRecipt = async (transaction) => {
@@ -198,8 +178,21 @@ export const Profile = () => {
 
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const currUser = await axios.get(`http://localhost:8000/api/user/${id}`);
+        setUser(currUser.data);
+        setBarcode(currUser.data.memberNum);
+        console.log(user.memberNum);
+      } catch {
+        console.log("Error showing user's profile");
+      }
+    };
+  
     fetchData();
-  },[id]);
+  }, [id, user.memberNum]);  // Add user.memberNum to the dependency array
+  
+  
   
 
 
@@ -215,17 +208,7 @@ export const Profile = () => {
     }
   }, [barcodeVal]); 
 
-  const ItemPrice = async(itemID) =>{
-    try {
-      const item = await axios.get(`http://localhost:8000/api/itemID/${itemID}`);
-      if(!item){
-        alert("No item showing.");
-      }
-      return item.data.price;
-    } catch (error) {
-      console.log("Error finding item.");
-    }
-  }
+
 
   return (
     <div>

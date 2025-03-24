@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 import "./mainPage.css";
 import { useNavigate } from 'react-router-dom';
 

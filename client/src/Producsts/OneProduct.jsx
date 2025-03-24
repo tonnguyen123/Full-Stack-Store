@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
-import { useLocation, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import {Link} from 'react-router-dom';
 import "./oneProduct.css";
 
@@ -17,18 +17,21 @@ export const OneProduct = () => {
     const [quantity, setQty] = useState(1);
     console.log(sku);
 
-    const fetchData = async() =>{
-        try {
-            const res = await axios.get(`http://localhost:8000/api/product/${sku}`);
-            setProd(res.data);
-        } catch (error) {
-            console.log("Error fetching product's data.");
-        }
-    }
+ 
 
     useEffect(() => {
-        fetchData();
-      }, []);
+      const fetchData = async () => {
+          try {
+              const res = await axios.get(`http://localhost:8000/api/product/${sku}`);
+              setProd(res.data);
+          } catch (error) {
+              console.log("Error fetching product's data.");
+          }
+      };
+  
+      fetchData();
+  }, [sku]);
+  
 
     const ChangeQty = (type) =>{
         if(type === "plus"){
@@ -85,6 +88,7 @@ export const OneProduct = () => {
             sku: item.sku,
             qty: quantity
           });
+          console.log(response);
           
           
         } catch (error) {
@@ -126,7 +130,8 @@ export const OneProduct = () => {
         </div>
       
        
-        <img src={product.thumbnail}/>
+        <img src={product.thumbnail} alt={product.title || 'Product image'} />
+
         <h5>${product.price}</h5>
         {
             checkStock() && (
