@@ -6,6 +6,7 @@ import AddressAutoComplete from './AddressAutoComplete';
 
 
 export const AddUser = () => {
+    const backEndURL = process.env.REACT_APP_BACK_END_URL;
     
     const users = {
         name: "",
@@ -39,7 +40,7 @@ export const AddUser = () => {
         const memNum = Math.floor(100000000000 + Math.random() * 900000000000).toString();
         setUser({ ...user, memberNum : memNum });
         
-        await axios.post("http://localhost:8000/api/user",user)
+        await axios.post(`${backEndURL}/api/user`,user)
         .then((response)=>{
             console.log(user.memberNum);
             console.log("User created successfully.");
