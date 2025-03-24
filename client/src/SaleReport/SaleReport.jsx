@@ -15,23 +15,6 @@ export const SaleReport = () => {
     const navigate = useNavigate();
 
     // Fetch user data and process sales
-    const fetchDat = async () => {
-        try {
-            const res = await axios.get("http://localhost:8000/api/users");
-            if (Array.isArray(res.data)) {
-                setUser(res.data);
-                processSalesData(res.data);
-            } else {
-                console.error("Data is not an array:", res.data);
-                setUser([]);
-                setArray([]); // Reset sales array
-            }
-        } catch (error) {
-            console.log("Error while fetching data.", error);
-            setUser([]);
-            setArray([]); // Reset sales array
-        }
-    };
 
     const handleChange =(e) =>{
         setOption(e.target.value);
@@ -83,13 +66,30 @@ export const SaleReport = () => {
     
 
     // Log when saleArray updates
-    useEffect(() => {
-        console.log("Total sold items:", saleArray.length);
-    }, [saleArray]);
+    
 
     useEffect(() => {
+        const fetchDat = async () => {
+            try {
+                const res = await axios.get("http://localhost:8000/api/users");
+                if (Array.isArray(res.data)) {
+                    setUser(res.data);
+                    processSalesData(res.data);
+                } else {
+                    console.error("Data is not an array:", res.data);
+                    setUser([]);
+                    setArray([]); // Reset sales array
+                }
+            } catch (error) {
+                console.log("Error while fetching data.", error);
+                setUser([]);
+                setArray([]); // Reset sales array
+            }
+        };
+    
         fetchDat();
-    }, []);
+    }, []); // Empty dependency array to run only once on mount
+    
 
     // Chart data based on saleArray
     const chartData = {

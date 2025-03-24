@@ -6,8 +6,8 @@ import "./product.css";
 export const Product = () => {
   const [productArray, setArray] = useState([]);
   const [categories, setCategory] = useState([]);
-  const [currUser,setUser] = useState();
-  const [Cart,setCart] = useState([]);
+  
+
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -20,7 +20,7 @@ export const Product = () => {
   
   const location = useLocation();
   const user = location.state?.user || { _id: null, cart: [] };
-  const [cartCount, setCartCount] = useState(user.cart?.length || 0);
+
 
 
 
@@ -48,41 +48,8 @@ export const Product = () => {
     
   }, []);
 
-  const getCartCount = async() =>{
-    const userCart = await axios.get(`http://localhost:8000/api/cart/${user._id}`);
-    let cartSize = userCart.data.length;
-    if(cartSize > 0){
-      setCartCount(cartSize);
-    }
-    else{
-      
-    }
-   
 
- }
-  const AdditemToCart = async(item, event) => {
-    event.stopPropagation(); // Prevent navigation
-    event.preventDefault();  // Prevent default link behavior
-    
-    console.log(id);
-    console.log(item.sku);
-    
-    try {
-      console.log("I am in here");
-      const response = await axios.put("http://localhost:8000/api/update/cart",{
-        id: id,
-        sku: item.sku,
-        qty:1
-      });
-      console.log("Cart updated:", response.data);
-      setCartCount(cartCount+1);
-      
-    } catch (error) {
-      console.error("Error adding item to cart:", error);
-    }
-    
-  
-  };
+
 
   const starRating = (starNum) => {
     let stars = [];

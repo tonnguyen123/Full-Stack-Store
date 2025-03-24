@@ -51,17 +51,7 @@ export const Cart = () => {
         );
     };
 
-    const fetchCart = async () => {
-        try {
-            const currUser = await axios.get(`http://localhost:8000/api/user/${id}`);
-            setUser(currUser.data); // <-- Set the actual user data
-            setPoints(currUser.data.points);
-            setCart(currUser.data.cart);
-            
-        } catch (error) {
-            console.log("Error getting items in the cart.");
-        }
-    };
+    
     const removeItem = async (id, itemSKU) => {
         try {
             const response = await axios.put("http://localhost:8000/api/removeItem/cart", {
@@ -131,8 +121,19 @@ export const Cart = () => {
     
 
     useEffect(() => {
+        const fetchCart = async () => {
+            try {
+                const currUser = await axios.get(`http://localhost:8000/api/user/${id}`);
+                setUser(currUser.data); 
+                setPoints(currUser.data.points);
+                setCart(currUser.data.cart);
+            } catch (error) {
+                console.log("Error getting items in the cart.");
+            }
+        };
         fetchCart();
     }, [id]);
+    
 
     return (
         <div className="cartContainer">

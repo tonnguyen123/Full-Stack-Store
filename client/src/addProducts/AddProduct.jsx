@@ -45,13 +45,8 @@ export const AddProduct = () => {
     const submitForm = async (e) => {
         e.preventDefault();
         
-        
-        console.log("Title " + newProduct.title + "," + "price is " +  newProduct.price + ","
-            + "stock is " + newProduct.stock + "," + "sku is " + newProduct.sku
-        );
-
-        
-
+        console.log(`Title: ${newProduct.title}, Price: ${newProduct.price}, Stock: ${newProduct.stock}, SKU: ${newProduct.sku}`);
+    
         try {
             await axios.post('http://localhost:8000/api/item', newProduct);
             navigate('/items');
@@ -59,6 +54,7 @@ export const AddProduct = () => {
             console.error('Error adding product:', error.response?.data || error.message);
         }
     };
+    
 
     return (
         <div className='addUser'>
