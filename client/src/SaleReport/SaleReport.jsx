@@ -71,16 +71,16 @@ export const SaleReport = () => {
             try {
                 const res = await axios.get("http://localhost:8000/api/users");
                 if (Array.isArray(res.data)) {
-                    setUser(res.data);
+                    //setUser(res.data);
                     processSalesData(res.data);
                 } else {
                     console.error("Data is not an array:", res.data);
-                    setUser([]);
+                    //setUser([]);
                     setArray([]); // Reset sales array
                 }
             } catch (error) {
                 console.log("Error while fetching data.", error);
-                setUser([]);
+                //setUser([]);
                 setArray([]); // Reset sales array
             }
         };
