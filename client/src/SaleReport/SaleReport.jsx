@@ -75,7 +75,42 @@ useEffect(() => {
         try {
             const res = await axios.get(`${backEndURL}/api/users`);
             if (Array.isArray(res.data)) {
-                await processSalesData(res.data);
+                // Process data inside useEffect itself
+                const data = res.data;
+                if (data.length === 0) {
+                    console.log("No data");
+                    setArray([]);
+                    return;
+                }
+
+                let newSales = [];
+                let categories = [];
+
+                for (const user of data) {
+                    if (Array.isArray(user.boughtItems)) {
+                        for (const item of user.boughtItems) {
+                            try {
+                                const response = await axios.get(`${backEndURL}/api/itemID/${item.item}`);
+                                const productName = response.data.title;
+                                const productCategory = response.data.category;
+                                newSales.push({
+                                    product: productName,
+                                    quantity: item.quantity
+                                });
+
+                                categories.push({
+                                    type: productCategory,
+                                    quantity: item.quantity
+                                });
+                            } catch (error) {
+                                console.error(`Error fetching product name for item ${item.item}:`, error);
+                            }
+                        }
+                    }
+                }
+
+                setArray(newSales);
+                setCattogery(categories);
             } else {
                 console.error("Data is not an array:", res.data);
                 setArray([]);
@@ -87,7 +122,8 @@ useEffect(() => {
     };
 
     fetchDat();
-}, [backEndURL, processSalesData]); // Added processSalesData as a dependency
+}, [backEndURL]); // Removed processSalesData from dependencies
+
 
 
     const chartData = {
