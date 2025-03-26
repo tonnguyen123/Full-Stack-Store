@@ -23,16 +23,6 @@ export const Product = () => {
 
 
 
-  const fetchItems = async () => {
-    try {
-      const res = await axios.get(`${backEndURL}/api/items`);
-      setArray(res.data);
-      const uniqueCategories = new Set(res.data.map((product) => product.category));
-      setCategory([...uniqueCategories]);
-    } catch (error) {
-      console.error("Error fetching items:", error);
-    }
-  };
 
 useEffect(() => {
   const fetchCart = async () => {
@@ -46,9 +36,21 @@ useEffect(() => {
     }
   };
 
-  fetchItems();
+  const fetchItems = async () => {
+    try {
+      const res = await axios.get(`${backEndURL}/api/items`);
+      setArray(res.data);
+      const uniqueCategories = new Set(res.data.map((product) => product.category));
+      setCategory([...uniqueCategories]);
+    } catch (error) {
+      console.error("Error fetching items:", error);
+    }
+  };
+
+  fetchItems(); // Call it directly inside useEffect
   fetchCart();
-}, [id, backEndURL, fetchItems]); // Include fetchItems in dependencies
+}, [id, backEndURL]); // Remove fetchItems from dependency array
+
 
   
 
