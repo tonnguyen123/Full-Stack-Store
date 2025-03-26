@@ -19,11 +19,13 @@ export const Product = () => {
   const user = location.state?.user || { _id: null, cart: [] };
   const [cartCount, setCartCount] = useState(user.cart?.length || 0);
 
+  const backEndURL = process.env.REACT_APP_BACK_END_URL;
+
 
 
   const fetchItems = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/items");
+      const res = await axios.get(`${backEndURL}/api/items`);
       setArray(res.data);
       const uniqueCategories = new Set(res.data.map((product) => product.category));
       setCategory([...uniqueCategories]);
@@ -35,7 +37,7 @@ export const Product = () => {
     useEffect(() => {
       const fetchCart = async () => {
           try {
-              const currUser = await axios.get(`http://localhost:8000/api/user/${id}`);
+              const currUser = await axios.get(`${backEndURL}/api/user/${id}`);
               const CartItems = currUser.data.cart;
               console.log("current user is" + CartItems.length);
               setCartCount(CartItems.length);
@@ -58,7 +60,7 @@ export const Product = () => {
     
     try {
       console.log("I am in here");
-      const response = await axios.put("http://localhost:8000/api/update/cart",{
+      const response = await axios.put(`${backEndURL}/api/update/cart`,{
         id: id,
         sku: item.sku,
         qty:1
