@@ -70,24 +70,25 @@ export const SaleReport = () => {
         }
     };
 
-    useEffect(() => {
-        const fetchDat = async () => {
-            try {
-                const res = await axios.get(`${backEndURL}/api/users`);
-                if (Array.isArray(res.data)) {
-                    processSalesData(res.data);
-                } else {
-                    console.error("Data is not an array:", res.data);
-                    setArray([]);
-                }
-            } catch (error) {
-                console.log("Error while fetching data.", error);
+useEffect(() => {
+    const fetchDat = async () => {
+        try {
+            const res = await axios.get(`${backEndURL}/api/users`);
+            if (Array.isArray(res.data)) {
+                await processSalesData(res.data);
+            } else {
+                console.error("Data is not an array:", res.data);
                 setArray([]);
             }
-        };
+        } catch (error) {
+            console.log("Error while fetching data.", error);
+            setArray([]);
+        }
+    };
 
-        fetchDat();
-    }, [backEndURL]); // Empty dependency array to run only once on mount
+    fetchDat();
+}, [backEndURL, processSalesData]); // Added processSalesData as a dependency
+
 
     const chartData = {
         labels: [...new Set(saleArray.map(item => item.product))],
