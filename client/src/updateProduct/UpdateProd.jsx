@@ -15,9 +15,11 @@ export const UpdateProd = () => {
     const { sku } = useParams();
     console.log(`sku is ${sku}`);
 
+    const backEndURL = process.env.REACT_APP_BACK_END_URL;
+
     useEffect(() => {
         const fetchItemInfo = async () => {
-            const item = await axios.get(`http://localhost:8000/api/product/${sku}`);
+            const item = await axios.get(`${backEndURL}/product/${sku}`);
             setItem(item.data);
         };
 
@@ -37,7 +39,7 @@ export const UpdateProd = () => {
         console.log(`Title: ${currItem.title}, Price: ${currItem.price}, Stock: ${currItem.stock}, SKU: ${currItem.sku}`);
 
         try {
-            await axios.put(`http://localhost:8000/api/itemupdate/${sku}`, currItem);
+            await axios.put(`${backEndURL}/api/itemupdate/${sku}`, currItem);
             navigate('/items');
         } catch (error) {
             console.error('Error updating product:', error.response?.data || error.message);
