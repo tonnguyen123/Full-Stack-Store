@@ -34,21 +34,22 @@ export const Product = () => {
     }
   };
 
-    useEffect(() => {
-      const fetchCart = async () => {
-          try {
-              const currUser = await axios.get(`${backEndURL}/api/user/${id}`);
-              const CartItems = currUser.data.cart;
-              console.log("current user is" + CartItems.length);
-              setCartCount(CartItems.length);
-          } catch (error) {
-              console.log("Error getting items in the cart.");
-          }
-      };
-  
-      fetchItems();
-      fetchCart();
-  }, [id,backEndURL]); // Add id as a dependency since it may change
+useEffect(() => {
+  const fetchCart = async () => {
+    try {
+      const currUser = await axios.get(`${backEndURL}/api/user/${id}`);
+      const CartItems = currUser.data.cart;
+      console.log("current user is" + CartItems.length);
+      setCartCount(CartItems.length);
+    } catch (error) {
+      console.log("Error getting items in the cart.");
+    }
+  };
+
+  fetchItems();
+  fetchCart();
+}, [id, backEndURL, fetchItems]); // Include fetchItems in dependencies
+
   
 
   const AdditemToCart = async(item, event) => {
