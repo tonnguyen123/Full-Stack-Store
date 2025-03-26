@@ -23,6 +23,8 @@ export const SaleReport = () => {
 
     const navigate = useNavigate();
 
+    const backEndURL = process.env.REACT_APP_BACK_END_URL;
+
     const handleChange =(e) => {
         setOption(e.target.value);
     }
@@ -42,7 +44,7 @@ export const SaleReport = () => {
                 if (Array.isArray(user.boughtItems)) {
                     for (const item of user.boughtItems) {
                         try {
-                            const response = await axios.get(`http://localhost:8000/api/itemID/${item.item}`);
+                            const response = await axios.get(`${backEndURL}/api/itemID/${item.item}`);
                             const productName = response.data.title;
                             const productCategory = response.data.category;
                             newSales.push({
@@ -71,7 +73,7 @@ export const SaleReport = () => {
     useEffect(() => {
         const fetchDat = async () => {
             try {
-                const res = await axios.get("http://localhost:8000/api/users");
+                const res = await axios.get(`${backEndURL}/api/users`);
                 if (Array.isArray(res.data)) {
                     processSalesData(res.data);
                 } else {
