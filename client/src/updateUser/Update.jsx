@@ -20,7 +20,7 @@ export const Update = () => {
     } catch (error) {
       console.log("Error fetching user's info:", error);
     }
-  }, [id]);
+  }, [id,backEndURL]);
 
   useEffect(() => {
     FetchUserInfo();
