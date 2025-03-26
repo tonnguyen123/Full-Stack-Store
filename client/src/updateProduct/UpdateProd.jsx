@@ -24,7 +24,7 @@ export const UpdateProd = () => {
         };
 
         fetchItemInfo();
-    }, [sku]);
+    }, [sku,backEndURL]);
 
     const navigate = useNavigate();
 
