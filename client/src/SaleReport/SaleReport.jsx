@@ -87,7 +87,7 @@ export const SaleReport = () => {
         };
 
         fetchDat();
-    }, [backEndURL); // Empty dependency array to run only once on mount
+    }, [backEndURL]); // Empty dependency array to run only once on mount
 
     const chartData = {
         labels: [...new Set(saleArray.map(item => item.product))],
