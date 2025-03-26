@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback  } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -29,7 +29,7 @@ export const SaleReport = () => {
 
     const backEndURL = process.env.REACT_APP_BACK_END_URL;
 
-    import { useCallback } from 'react';
+    
 
 const processSalesData = useCallback(async (data) => {
     if (data.length === 0) {
