@@ -25,7 +25,8 @@ export const Product = () => {
 
 
 
-  const fetchItems = async () => {
+  useEffect(() => {
+    const fetchItems = async () => {
     try {
       const res = await axios.get(`${backEndURL}/api/items`);
       setArray(res.data);
@@ -35,19 +36,9 @@ export const Product = () => {
       console.error("Error fetching items:", error);
     }
   };
-
-
-
-
-
-
-
-
-  useEffect(() => {
-    fetchItems();
     
     
-  }, []);
+  }, [backEndURL]);
 
 
 
