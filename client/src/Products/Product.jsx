@@ -20,13 +20,14 @@ export const Product = () => {
   
   const location = useLocation();
   const user = location.state?.user || { _id: null, cart: [] };
+  const backEndURL = process.env.REACT_APP_BACK_END_URL;
 
 
 
 
   const fetchItems = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/items");
+      const res = await axios.get(`${backEndURL}/api/items`);
       setArray(res.data);
       const uniqueCategories = new Set(res.data.map((product) => product.category));
       setCategory([...uniqueCategories]);
