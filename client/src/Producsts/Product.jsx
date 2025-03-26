@@ -48,7 +48,7 @@ export const Product = () => {
   
       fetchItems();
       fetchCart();
-  }, [id]); // Add id as a dependency since it may change
+  }, [id,backEndURL]); // Add id as a dependency since it may change
   
 
   const AdditemToCart = async(item, event) => {
