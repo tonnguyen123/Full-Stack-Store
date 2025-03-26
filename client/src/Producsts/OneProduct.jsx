@@ -10,7 +10,7 @@ export const OneProduct = () => {
         weight:"",dimensions:"",review:[]
     });
 
-    
+    const backEndURL = process.env.REACT_APP_BACK_END_URL;
     
     const{sku,id} = useParams();
     console.log({id});
@@ -22,7 +22,7 @@ export const OneProduct = () => {
     useEffect(() => {
       const fetchData = async () => {
           try {
-              const res = await axios.get(`http://localhost:8000/api/product/${sku}`);
+              const res = await axios.get(`${backEndURL}/api/product/${sku}`);
               setProd(res.data);
           } catch (error) {
               console.log("Error fetching product's data.");
@@ -83,7 +83,7 @@ export const OneProduct = () => {
         
         try {
           console.log("I am in here");
-          const response = await axios.put("http://localhost:8000/api/update/cart",{
+          const response = await axios.put(`${backEndURL}/api/update/cart`,{
             id: id,
             sku: item.sku,
             qty: quantity
