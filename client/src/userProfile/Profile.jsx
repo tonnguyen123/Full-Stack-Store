@@ -179,20 +179,21 @@ export const Profile = () => {
 
 
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const currUser = await axios.get(`${backEndURL}/api/user/${id}`);
-        setUser(currUser.data);
-        setBarcode(currUser.data.memberNum);
-        console.log(user.memberNum);
-      } catch {
-        console.log("Error showing user's profile");
-      }
-    };
-  
-    fetchData();
-  }, [id, user.memberNum]);  // Add user.memberNum to the dependency array
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const currUser = await axios.get(`${backEndURL}/api/user/${id}`);
+      setUser(currUser.data);
+      setBarcode(currUser.data.memberNum);
+      console.log(user.memberNum);
+    } catch {
+      console.log("Error showing user's profile");
+    }
+  };
+
+  fetchData();
+}, [id, backEndURL, user.memberNum]); 
+
   
   
   
