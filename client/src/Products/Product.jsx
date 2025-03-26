@@ -37,7 +37,7 @@ export const Product = () => {
     }
   };
     
-    
+   fetchItems(); 
   }, [backEndURL]);
 
 
