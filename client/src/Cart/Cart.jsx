@@ -132,7 +132,7 @@ export const Cart = () => {
             }
         };
         fetchCart();
-    }, [id]);
+    }, [id,backEndURL]);
     
 
     return (
