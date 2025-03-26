@@ -19,6 +19,8 @@ export const Profile = () => {
   const [transactions, setTransaction] = useState([]);
   const navigate = useNavigate();
 
+  const backEndURL = process.env.REACT_APP_BACK_END_URL;
+
   
   const generateRecipt = async (transaction) => {
     // Ensure the content exists
@@ -114,7 +116,7 @@ export const Profile = () => {
     }
     
     try {
-      const historyRes = await axios.get(`http://localhost:8000/api/history/${id}`);
+      const historyRes = await axios.get(`${backEndURL}/api/history/${id}`);
       if (!historyRes.data) {
         alert("There is no history of purchase made by this customer.");
         return;
@@ -122,7 +124,7 @@ export const Profile = () => {
       
       const transactionsWithItems = await Promise.all(
         historyRes.data.map(async (transaction) => {
-          const itemRes = await axios.get(`http://localhost:8000/api/itemID/${transaction.item}`);
+          const itemRes = await axios.get(`${backEndURL}/api/itemID/${transaction.item}`);
           return {
             ...transaction,
             itemDetails: itemRes.data,
@@ -158,7 +160,7 @@ export const Profile = () => {
     }
   
     try {
-      await axios.post("http://localhost:8000/api/email", formData, {
+      await axios.post(`${backEndURL}/api/email`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       alert(`Email sent to ${user.name} at ${user.email}`);
@@ -180,7 +182,7 @@ export const Profile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const currUser = await axios.get(`http://localhost:8000/api/user/${id}`);
+        const currUser = await axios.get(`${backEndURL}/api/user/${id}`);
         setUser(currUser.data);
         setBarcode(currUser.data.memberNum);
         console.log(user.memberNum);
