@@ -19,7 +19,7 @@ export const UpdateProd = () => {
 
     useEffect(() => {
         const fetchItemInfo = async () => {
-            const item = await axios.get(`${backEndURL}/product/${sku}`);
+            const item = await axios.get(`${backEndURL}/api/product/${sku}`);
             setItem(item.data);
         };
 
