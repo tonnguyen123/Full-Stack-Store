@@ -13,7 +13,7 @@ export const AddProduct = () => {
     };
     const [newProduct, setItem] = useState(newItem);
 
-    
+    const backEndURL = process.env.REACT_APP_BACK_END_URL;
 
 
     
@@ -32,7 +32,7 @@ export const AddProduct = () => {
         formData.append("image", file);
     
         try {
-            const res = await axios.post("http://localhost:8000/api/upload", formData, {
+            const res = await axios.post(`${backEndURL}/api/upload`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
     
@@ -48,7 +48,7 @@ export const AddProduct = () => {
         console.log(`Title: ${newProduct.title}, Price: ${newProduct.price}, Stock: ${newProduct.stock}, SKU: ${newProduct.sku}`);
     
         try {
-            await axios.post('http://localhost:8000/api/item', newProduct);
+            await axios.post(`${backEndURL}/api/item`, newProduct);
             navigate('/items');
         } catch (error) {
             console.error('Error adding product:', error.response?.data || error.message);
