@@ -8,12 +8,13 @@ export const Update = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [user, setUser] = useState({ name: "", email: "", address: "" });
+  const backEndURL = process.env.REACT_APP_BACK_END_URL;
   
 
   // Memoize FetchUserInfo to avoid recreating it on every render.
   const FetchUserInfo = useCallback(async () => {
     try {
-      const currUser = await axios.get("http://localhost:8000/api/user/" + id);
+      const currUser = await axios.get(`${backEndURL}/api/user/` + id);
       setUser(currUser.data);
       
     } catch (error) {
@@ -40,7 +41,7 @@ export const Update = () => {
       const confirmUpdate = window.confirm("Are you sure you want to save all changes that you made?");
       if (confirmUpdate) {
         try {
-          await axios.put(`http://localhost:8000/api/update/user/${user._id}`, user);
+          await axios.put(`${backEndURL}/api/update/user/${user._id}`, user);
           navigate("/");
         } catch (error) {
           console.log("Error updating user:", error);
