@@ -12,7 +12,7 @@ export const Cart = () => {
     let OrderAmount = 0;
 
     
-    
+    const backEndURL = process.env.REACT_APP_BACK_END_URL;
 
     const ChangeQty = async (type, itemId) => {
         setCart(prevCart =>
@@ -21,7 +21,7 @@ export const Cart = () => {
                     const newQuantity = type === "plus" ? item.quantity + 1 : item.quantity - 1;
                     const updatedQuantity = Math.max(1, newQuantity);
     
-                    axios.put("http://localhost:8000/api/update/cart", {
+                    axios.put(`${backEndURL}/api/update/cart`, {
                         id,
                         itemId,
                         quantity: updatedQuantity
@@ -54,7 +54,7 @@ export const Cart = () => {
     
     const removeItem = async (id, itemSKU) => {
         try {
-            const response = await axios.put("http://localhost:8000/api/removeItem/cart", {
+            const response = await axios.put(`${backEndURL}/api/removeItem/cart`, {
                 id: id,
                 sku: itemSKU
             });
@@ -101,7 +101,7 @@ export const Cart = () => {
                 }
                 
             
-                const response = await axios.put("http://localhost:8000/api/checkOut", {
+                const response = await axios.put(`${backEndURL}/api/checkOut`, {
                     id: id,
                     items: updatedCheckouts,
                     points: startPoints,
@@ -123,7 +123,7 @@ export const Cart = () => {
     useEffect(() => {
         const fetchCart = async () => {
             try {
-                const currUser = await axios.get(`http://localhost:8000/api/user/${id}`);
+                const currUser = await axios.get(`${backEndURL}/api/user/${id}`);
                 setUser(currUser.data); 
                 setPoints(currUser.data.points);
                 setCart(currUser.data.cart);
