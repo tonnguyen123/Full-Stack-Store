@@ -29,65 +29,68 @@ export const SaleReport = () => {
 
     const backEndURL = process.env.REACT_APP_BACK_END_URL;
 
-    const processSalesData = async (data) => {
-        if (data.length === 0) {
-            console.log("No data");
-            setArray([]);
-            return;
-        }
+    import { useCallback } from 'react';
 
-        let newSales = [];
-        let categories = [];
+const processSalesData = useCallback(async (data) => {
+    if (data.length === 0) {
+        console.log("No data");
+        setArray([]);
+        return;
+    }
 
-        try {
-            for (const user of data) {
-                if (Array.isArray(user.boughtItems)) {
-                    for (const item of user.boughtItems) {
-                        try {
-                            const response = await axios.get(`${backEndURL}/api/itemID/${item.item}`);
-                            const productName = response.data.title;
-                            const productCategory = response.data.category;
-                            newSales.push({
-                                product: productName,
-                                quantity: item.quantity
-                            });
+    let newSales = [];
+    let categories = [];
 
-                            categories.push({
-                                type: productCategory,
-                                quantity: item.quantity
-                            })
-                        } catch (error) {
-                            console.error(`Error fetching product name for item ${item.item}:`, error);
-                        }
+    try {
+        for (const user of data) {
+            if (Array.isArray(user.boughtItems)) {
+                for (const item of user.boughtItems) {
+                    try {
+                        const response = await axios.get(`${backEndURL}/api/itemID/${item.item}`);
+                        const productName = response.data.title;
+                        const productCategory = response.data.category;
+                        newSales.push({
+                            product: productName,
+                            quantity: item.quantity
+                        });
+
+                        categories.push({
+                            type: productCategory,
+                            quantity: item.quantity
+                        });
+                    } catch (error) {
+                        console.error(`Error fetching product name for item ${item.item}:`, error);
                     }
                 }
             }
+        }
 
-            setArray(newSales);
-            setCattogery(categories);
+        setArray(newSales);
+        setCattogery(categories);
+    } catch (error) {
+        console.error("Error processing sales data:", error);
+    }
+}, [backEndURL]);
+
+useEffect(() => {
+    const fetchDat = async () => {
+        try {
+            const res = await axios.get(`${backEndURL}/api/users`);
+            if (Array.isArray(res.data)) {
+                processSalesData(res.data);
+            } else {
+                console.error("Data is not an array:", res.data);
+                setArray([]);
+            }
         } catch (error) {
-            console.error("Error processing sales data:", error);
+            console.log("Error while fetching data.", error);
+            setArray([]);
         }
     };
 
-    useEffect(() => {
-        const fetchDat = async () => {
-            try {
-                const res = await axios.get(`${backEndURL}/api/users`);
-                if (Array.isArray(res.data)) {
-                    processSalesData(res.data);
-                } else {
-                    console.error("Data is not an array:", res.data);
-                    setArray([]);
-                }
-            } catch (error) {
-                console.log("Error while fetching data.", error);
-                setArray([]);
-            }
-        };
+    fetchDat();
+}, [backEndURL, processSalesData]);
 
-        fetchDat();
-    }, [backEndURL]); // Empty dependency array to run only once on mount
 
     const chartData = {
         labels: [...new Set(saleArray.map(item => item.product))],
