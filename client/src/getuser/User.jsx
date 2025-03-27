@@ -8,6 +8,9 @@ export const User = () => {
   const [users, setUser] = useState([]);
   const backEndURL = process.env.REACT_APP_BACK_END_URL;
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredUsers, setFilteredUsers] = useState([]);
+
   // Memoize fetchDat to avoid unnecessary re-renders
   const fetchDat = useCallback(async () => {
     try {
@@ -40,6 +43,19 @@ export const User = () => {
     }
   };
 
+   const filterUsers = (userInput) =>{
+    if(!userInput){
+      setFilteredUsers([]);
+      return;
+
+    }
+    const matches = users.filter((userInfo)=>
+      userInfo.name.toLowerCase().includes(userInput.toLowerCase())
+    );
+    setFilteredUsers(matches);
+
+  };
+
   return (
     <div>
       <div>
@@ -52,6 +68,25 @@ export const User = () => {
         <Link to="/add" type="button" className="btn btn-primary">
           Add user <i className="fa-solid fa-user-plus"></i>
         </Link>
+        <div className="searchBox">
+        <input placeholder="Enter name of user to search"
+        value={searchTerm}
+        onChange={(e) =>{
+          setSearchTerm(e.target.value);
+          filterUsers(e.target.value);
+        }}
+        ></input>
+        {filteredUsers.length > 0 && (
+          <ul className="search-dropdown">
+            {filteredUsers.map((userInfo)=>(
+              <li key={userInfo._id} onClick={() => navigate(`/profile/${userInfo._id}`)}>
+                {userInfo.name}
+              </li>
+            ))}
+          </ul>
+
+        )}
+      </div>
         {users.length === 0 ? (
           <div className='noDat'>
             <h3>No user data in the database</h3>
