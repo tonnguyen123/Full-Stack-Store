@@ -111,11 +111,11 @@ export const OneProduct = () => {
   return (
     <div>
         <div className='topButtons'>
-            <Link to = {`/products/${id}`}>
-            <button >BACK</button>
+            <Link to = {'/items'}>
+            <button >PRODUCTS</button>
             </Link>
-            <Link to = {`/${id}/cart`}>
-            <button>CART</button>
+            <Link to = {'/'}>
+            <button>HOME</button>
             </Link>
        
         
@@ -134,7 +134,7 @@ export const OneProduct = () => {
 
         <h5>${product.price}</h5>
         {
-            checkStock() && (
+           checkStock() && id !== 'undefined' && (
                 <div>
             <button onClick={()=>ChangeQty("minus")}>-</button>
             <input type="number" min ="1" value={quantity}
