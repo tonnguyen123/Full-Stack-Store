@@ -301,17 +301,22 @@ useEffect(() => {
           <button onClick={() => generateRecipt(transactionsOnDate)} style={{ marginRight: '10px' }}>Save as PDF</button>
         </div>
 
-        {transactionsOnDate.map((transaction) => (
-          <div key={transaction.id} className="transactionDetails">
+        {transactionsOnDate.map((transaction) => {
+          const time = new Date(transaction.purchaseDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+          return (
+            <div key={transaction.id} className="transactionDetails">
             <h3>{transaction.itemDetails?.title || "Unknown Item"}</h3>
             {transaction.itemDetails?.thumbnail && (
               <img src={transaction.itemDetails.thumbnail} alt={transaction.itemDetails.title} width="100" />
             )}
             <h4>Quantity sold: {transaction.quantity}</h4>
-            <h4>payment: ${transaction.quantity * transaction.itemDetails.price}</h4>
-            <h4>_____________________________________</h4>
+            <h4>Payment: ${transaction.quantity * transaction.itemDetails.price}</h4>
+            <h4>Time: {time}</h4> {/* Show the extracted time */}
+            <h4>___________________</h4>
           </div>
-        ))}
+        );
+      })}
 
        
       </div>
