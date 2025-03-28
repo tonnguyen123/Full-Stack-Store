@@ -24,23 +24,6 @@ export const AddProduct = () => {
         setItem({ ...newProduct, [name]: value });
     };
 
-    const fileHandler = async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-    
-        const formData = new FormData();
-        formData.append("image", file);
-    
-        try {
-            const res = await axios.post(`${backEndURL}/api/upload`, formData, {
-                headers: { "Content-Type": "multipart/form-data" },
-            });
-    
-            setItem({ ...newProduct, thumbnail: res.data.url });
-        } catch (error) {
-            console.error("Error uploading image:", error.response?.data || error.message);
-        }
-    };
 
     const submitForm = async (e) => {
         e.preventDefault();
