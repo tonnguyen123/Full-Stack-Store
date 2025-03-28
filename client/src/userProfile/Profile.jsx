@@ -176,6 +176,20 @@ export const Profile = () => {
   }
 
 
+   const groupReceiptbyDate = () => {
+  const groupedByDate = {};
+  transactions.forEach((item) => {
+    const dateInfo = item.purchaseDate.split("T")[0];
+    if(!groupedByDate[dateInfo]){
+      groupedByDate[dateInfo] = [];
+    }
+    groupedByDate[dateInfo].push(item);
+  })
+  return groupedByDate;
+
+ }
+
+
 
 
 
@@ -312,34 +326,29 @@ useEffect(() => {
         )
       }
       
-      {showTransaction && transactions.map((transaction) => {
-  const formattedDate = new Date(transaction.purchaseDate).toLocaleString("en-US", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
+           {showTransaction && 
+  Object.entries(groupReceiptbyDate()).map(([date, transactionsOnDate]) => (  //Convert Object 'groupReceiptbyDate()' to array
+    <div key={date} className='purchasedItem'>
+      <h2>Purchase Date: {new Date(date).toLocaleDateString()}</h2>
 
-  return (
-    <div id={`transaction-${transaction.id}`} key={transaction.id} className='purchasedItem'>
+      {transactionsOnDate.map((transaction) => (
+        <div key={transaction.id} className="transactionDetails">
+          <h3>{transaction.itemDetails?.title || "Unknown Item"}</h3>
+          {transaction.itemDetails?.thumbnail && (
+            <img src={transaction.itemDetails.thumbnail} alt={transaction.itemDetails.title} width="100" />
+          )}
+          <h4>Quantity sold: {transaction.quantity}</h4>
+          <h4>Total payment: ${transaction.quantity * transaction.itemDetails.price}</h4>
+        </div>
+      ))}
 
-      <h3>{transaction.itemDetails?.title || "Unknown Item"}</h3>
-      {transaction.itemDetails?.thumbnail && (
-        <img src={transaction.itemDetails.thumbnail} alt={transaction.itemDetails.title} width="100" />
-      )}
-      <h4>Quantity sold: {transaction.quantity}</h4>
-      <h4>Total payment: ${transaction.quantity * transaction.itemDetails.price}</h4>
-      <h5>Purchase Time: {formattedDate}</h5>
       <div className='TransactionButtons'>
-      <button onClick={()=>generateRecipt(transaction)} style={{marginRight : '10px'}}>Save as PDF</button>
-      <button>Email receipt</button>
+        <button onClick={() => generateRecipt(transactionsOnDate)} style={{ marginRight: '10px' }}>Save as PDF</button>
+       
       </div>
-      
     </div>
-  );
-})}
+  ))
+}
 
 
       </div>
