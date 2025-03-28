@@ -13,6 +13,7 @@ export const Cart = () => {
 
     
     const backEndURL = process.env.REACT_APP_BACK_END_URL;
+    const navigate = useNavigate();
 
     const ChangeQty = async (type, itemId) => {
         setCart(prevCart =>
