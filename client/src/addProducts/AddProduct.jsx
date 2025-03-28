@@ -89,10 +89,6 @@ export const AddProduct = () => {
                 </div>
                 
                 <div className='inputGroup'>
-                    <label>Or Upload Thumbnail: </label>
-                    <input type='file' accept='image/*' onChange={fileHandler} />
-                </div>
-                <div className='inputGroup'>
                     <button type='submit' className='btn btn-primary'>Submit</button>
                 </div>
             </form>
