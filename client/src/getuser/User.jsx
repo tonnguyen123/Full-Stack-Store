@@ -105,7 +105,8 @@ export const User = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((user, index) => (
+               {filteredUsers.length === 0 && users.map((user, index) => {
+              return (
                 <tr key={user._id || index}>
                   <td>{index + 1}</td>
                   <td>{user.name}</td>
@@ -129,16 +130,61 @@ export const User = () => {
                     >
                       <i className="fa-solid fa-trash"></i>
                     </button>
+
                     <button
-                      onClick={() => navigate(`/profile/${user._id}`)}
+                     onClick={() => navigate(`/profile/${user._id}`)}
                       type="button"
                       className="btn btn-info"
                     >
-                      <i className="fa-solid fa-user"></i>
+                      <i class="fa-solid fa-user"></i>
+
                     </button>
                   </td>
                 </tr>
-              ))}
+              );
+            })}
+                {
+              filteredUsers.length > 0 && filteredUsers.map((user, index) => {
+                return (
+                  <tr key={user._id || index}>
+                    <td>{index + 1}</td>
+                    <td>{user.name}</td>
+                    <td>{user.phone}</td>
+                    <td>{user.address}</td>
+                    <td>{user.email}</td>
+                    <td className='actions'>
+                      <button
+                        onClick={() => navigate(`/update/${user._id}`)}
+                        type="button"
+                        className="btn btn-success"
+                        style={{ marginRight: '10px' }}
+                      >
+                        <i className="fa-solid fa-pen-to-square"></i>
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-danger"
+                        style={{ marginRight: '10px' }}
+                        onClick={() => deleteUser(user._id || user.id)}
+                      >
+                        <i className="fa-solid fa-trash"></i>
+                      </button>
+  
+                      <button
+                       onClick={() => navigate(`/profile/${user._id}`)}
+                        type="button"
+                        className="btn btn-info"
+                      >
+                        <i class="fa-solid fa-user"></i>
+  
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
+
+            }
+              
             </tbody>
           </table>
         )}
