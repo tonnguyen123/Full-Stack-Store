@@ -22,49 +22,28 @@ export const Profile = () => {
   const backEndURL = process.env.REACT_APP_BACK_END_URL;
 
   
-  const generateRecipt = async (transaction) => {
-    // Ensure the content exists
-    const content = document.getElementById(`transaction-${transaction.id}`);
-  
-    if (!content) {
-      console.error("Transaction element not found!");
+ const generateRecipt = async (transactionsOnDate) => {
+    if (!transactionsOnDate || transactionsOnDate.length === 0) {
+      console.error("No transactions available for receipt generation!");
       return;
     }
   
-    // Add the user's name at the top of the content dynamically
-    const nameElement = document.createElement("h2");
-    nameElement.textContent = `Receipt for ${user.name}`;
-    content.prepend(nameElement);
+    const wrapperId = `receipt-container-${transactionsOnDate[0].id}`;
+    let content = document.getElementById(wrapperId);
   
-    // Apply smaller text class to all paragraphs, headers, and other text elements
-    const textElements = content.querySelectorAll("h3, h4, h5, p");
-    textElements.forEach((el) => {
-      el.style.fontSize = "10px";  // Set a smaller font size but clear for clarity
-      el.style.lineHeight = "1.2"; // Adjust line height for better text spacing
-      el.style.margin = "5px 0";  // Add margin for better alignment
-    });
+    if (!content) {
+      console.error("Transaction container not found!");
+      return;
+    }
   
-    // Apply specific styles to individual elements to fit better in the PDF
-    const h3Elements = content.querySelectorAll("h3");
-    h3Elements.forEach((el) => {
-      el.style.fontSize = "12px";  // Slightly larger font for item title
-      el.style.fontWeight = "bold";  // Bold item title
-    });
+    content.style.fontSize = "12px";
+    content.style.lineHeight = "1.5";
   
-    const h4Elements = content.querySelectorAll("h4");
-    h4Elements.forEach((el) => {
-      el.style.fontSize = "10px";  // Smaller font for quantity and price
-      el.style.fontWeight = "normal";
-    });
-  
-    // Hide buttons temporarily while rendering the receipt
     const buttons = content.querySelectorAll(".TransactionButtons");
     buttons.forEach((button) => (button.style.display = "none"));
   
-    // Ensure images load with cross-origin support
-    const images = content.querySelectorAll("img");
     await Promise.all(
-      Array.from(images).map((img) => {
+      Array.from(content.querySelectorAll("img")).map((img) => {
         return new Promise((resolve) => {
           if (!img.complete) {
             img.onload = resolve;
@@ -76,33 +55,20 @@ export const Profile = () => {
       })
     );
   
-    // Delay to allow all content to render properly before capturing
     setTimeout(async () => {
       try {
-        // Capture the content as a canvas image with a higher resolution scale
-        const canvas = await html2canvas(content, {
-          scale: 2,  // Keep higher scale for better clarity
-          useCORS: true,  // Ensure cross-origin images load
-          logging: false,  // Disable logging for cleaner execution
-        });
-  
+        const canvas = await html2canvas(content, { scale: 2, useCORS: true });
         const imgData = canvas.toDataURL("image/png");
   
-        // Create the PDF document
-        const doc = new jsPDF("p", "mm", "a4"); // A4 size paper
-  
-        // Add the captured canvas as an image into the PDF
-        doc.addImage(imgData, "PNG", 10, 10, 180, 100);
-  
-        // Save the PDF with a file name
-        doc.save(`Receipt_${transaction.id}.pdf`);
+        const doc = new jsPDF("p", "mm", "a4");
+        doc.addImage(imgData, "PNG", 10, 10, 180, 120);
+        doc.save(`Receipt_${transactionsOnDate[0].id}.pdf`);
       } catch (error) {
         console.error("Error generating PDF:", error);
       } finally {
-        // Restore buttons visibility
         buttons.forEach((button) => (button.style.display = "block"));
       }
-    }, 500); // Delay to ensure rendering completion
+    }, 500);
   };
   
   
@@ -326,27 +292,30 @@ useEffect(() => {
         )
       }
       
-           {showTransaction && 
-  Object.entries(groupReceiptbyDate()).map(([date, transactionsOnDate]) => (  //Convert Object 'groupReceiptbyDate()' to array
-    <div key={date} className='purchasedItem'>
-      <h2>Purchase Date: {new Date(date).toLocaleDateString()}</h2>
-
-      {transactionsOnDate.map((transaction) => (
-        <div key={transaction.id} className="transactionDetails">
-          <h3>{transaction.itemDetails?.title || "Unknown Item"}</h3>
-          {transaction.itemDetails?.thumbnail && (
-            <img src={transaction.itemDetails.thumbnail} alt={transaction.itemDetails.title} width="100" />
-          )}
-          <h4>Quantity sold: {transaction.quantity}</h4>
-          <h4>Total payment: ${transaction.quantity * transaction.itemDetails.price}</h4>
+ {showTransaction && 
+  Object.entries(groupReceiptbyDate()).map(([date, transactionsOnDate]) => (
+    transactionsOnDate.length > 0 && ( // Ensure array is not empty
+      <div key={date} id={`receipt-container-${transactionsOnDate[0].id}`} className='purchasedItem'>
+        <h2>Purchase Date: {new Date(date).toLocaleDateString()}</h2>
+        <div className='TransactionButtons'>
+          <button onClick={() => generateRecipt(transactionsOnDate)} style={{ marginRight: '10px' }}>Save as PDF</button>
         </div>
-      ))}
 
-      <div className='TransactionButtons'>
-        <button onClick={() => generateRecipt(transactionsOnDate)} style={{ marginRight: '10px' }}>Save as PDF</button>
+        {transactionsOnDate.map((transaction) => (
+          <div key={transaction.id} className="transactionDetails">
+            <h3>{transaction.itemDetails?.title || "Unknown Item"}</h3>
+            {transaction.itemDetails?.thumbnail && (
+              <img src={transaction.itemDetails.thumbnail} alt={transaction.itemDetails.title} width="100" />
+            )}
+            <h4>Quantity sold: {transaction.quantity}</h4>
+            <h4>payment: ${transaction.quantity * transaction.itemDetails.price}</h4>
+            <h4>_____________________________________</h4>
+          </div>
+        ))}
+
        
       </div>
-    </div>
+    )
   ))
 }
 
