@@ -12,6 +12,7 @@ export const Product = () => {
 
   const navigate = useNavigate();
   const {id} = useParams();
+  const[addedItems, setAdded] = useState({});
 
  
   
@@ -70,6 +71,7 @@ useEffect(() => {
       });
       console.log("Cart updated:", response.data);
       setCartCount(cartCount+1);
+      setAdded((prev)=> ({...prev, [item.sku]:true}));
       
     } catch (error) {
       console.error("Error adding item to cart:", error);
@@ -173,9 +175,20 @@ useEffect(() => {
                     {starRating(product.rating)}
                     <h5>$ {product.price}</h5>
                   </Link>
-                  <button onClick={(e) => AdditemToCart(product, e)}>
+                  {!addedItems[product.sku] && (
+                    <button onClick={(e) => AdditemToCart(product, e)}>
                     <i className="fa-solid fa-cart-plus"></i>
                   </button>
+
+                  )}
+                  {addedItems[product.sku] &&
+                    (
+                      <h4>Added to Cart.
+                        Adjust the quantity in the cart button.
+                      </h4>
+                    
+                    )
+                  }
                 
                   <h5>{product.stock > 0 ? `${product.stock} in stock` : "Out of stock" }</h5>
                 </div>
