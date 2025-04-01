@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import './cart.css';
 
 export const Cart = () => {
@@ -10,6 +10,8 @@ export const Cart = () => {
     const [user,setUser] = useState();
     const[currPoints,setPoints] = useState(0);
     let OrderAmount = 0;
+
+    const navigate = useNavigate();
 
     
     
@@ -93,11 +95,17 @@ export const Cart = () => {
                     if (startPoints > OrderAmount * 100) {
                         startPoints -=  OrderAmount*100
                         
-                        console.log("After payment, the points left is " + (startPoints));
-                        setPoints(startPoints);
-                        
-                        console.log(startPoints);
+                       
                     }
+
+                    else if(startPoints < OrderAmount * 100){
+                        startPoints = 0;
+                        
+                    }
+                    console.log("After payment, the points left is " + (startPoints));
+                    setPoints(startPoints);
+                    
+                    console.log(startPoints);
                 }
                 
             
@@ -105,13 +113,17 @@ export const Cart = () => {
                     id: id,
                     items: updatedCheckouts,
                     points: startPoints,
-                    pointsEarned: OrderAmount * 10
+                    pointsEarned: OrderAmount * 0.1
                 });
+
+                
 
                 console.log("Checkout Success:", response.data);
                 
                 setCart([]);
                 console.log("Points is " + currPoints);
+                alert("The payment was completed. Please review transaction infromation in Customer's Profile Page.");
+                navigate(`/profile/${id}`);
             } catch (error) {
                 console.error("Checkout Error:", error.response?.data || error.message);
             }

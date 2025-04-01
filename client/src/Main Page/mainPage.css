@@ -1,9 +1,25 @@
-.MainPage{
+.MainPage {
+    background-image: url('./store-background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh; /* Full viewport height */
+    width: 100vw;  /* Full viewport width */
+}
+
+.MainPage .pageTitle{
     display: flex;
-    width: 100%;
+    gap:10px;
+    align-items: center;
     justify-content: center;
-    margin-top: 20%;
-    gap: 30px;
+}
+.MainPage .buttons {
+    margin: 10%;
+    
+    display: flex;
+    gap:10px;
+    align-items: center;
+    justify-content: center;
 }
 
 .MainPage button{
@@ -11,7 +27,6 @@
     height: 200px;
     border-radius: 20px;
     font-size: 20px;
-    
 }
 
 .MainPage .productButton{

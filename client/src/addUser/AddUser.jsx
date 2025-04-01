@@ -44,7 +44,7 @@ export const AddUser = () => {
             console.log(user.memberNum);
             console.log("User created successfully.");
             console.log(user.phone);
-            navigate("/");
+            navigate("/users");
 
         })
         .catch((error)=>{

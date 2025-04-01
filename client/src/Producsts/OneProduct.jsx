@@ -13,7 +13,8 @@ export const OneProduct = () => {
     
     
     const{sku,id} = useParams();
-    console.log({id});
+    
+    console.log("Product ID:", id, "Type:", typeof id);
     const [quantity, setQty] = useState(1);
     console.log(sku);
 
@@ -111,11 +112,11 @@ export const OneProduct = () => {
   return (
     <div>
         <div className='topButtons'>
-            <Link to = {`/products/${id}`}>
-            <button >BACK</button>
+            <Link to = {'/items'}>
+            <button >PRODUCTS</button>
             </Link>
-            <Link to = {`/${id}/cart`}>
-            <button>CART</button>
+            <Link to = {'/'}>
+            <button>HOME</button>
             </Link>
        
         
@@ -134,14 +135,17 @@ export const OneProduct = () => {
 
         <h5>${product.price}</h5>
         {
-            checkStock() && (
+            checkStock() && id !== 'undefined' &&(
                 <div>
             <button onClick={()=>ChangeQty("minus")}>-</button>
             <input type="number" min ="1" value={quantity}
             onChange={handleNumber}
             ></input>
             <button onClick={()=>ChangeQty("plus")}>+</button>
-            <button onClick={(e) => AdditemToCart(product, e)}>Add to Cart</button>
+           
+              <button onClick={(e) => AdditemToCart(product, e)}>Add to Cart</button>
+            
+            
         </div>
             )
         }

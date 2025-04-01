@@ -41,7 +41,7 @@ export const Update = () => {
       if (confirmUpdate) {
         try {
           await axios.put(`http://localhost:8000/api/update/user/${user._id}`, user);
-          navigate("/");
+          navigate("/users");
         } catch (error) {
           console.log("Error updating user:", error);
         }

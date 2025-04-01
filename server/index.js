@@ -11,22 +11,28 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+dotenv.config();
+
 const app = express();
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads"))); // Serve static files correctly
 app.use(bodyParser.json());
 app.use(cors());
-dotenv.config();
 
 const PORT = process.env.PORT || 8000;
-const MONGOURL = process.env.MONGO_URL;
+const MONGO_URL = process.env.MONGO_URL; // Use local DB if no MONGO_URL is set
 
-mongoose.connect(MONGOURL)
-    .then(() => {
-        console.log("DB connected successfully.");
-        app.listen(PORT, () => {
-            console.log(`Server running on port: ${PORT}`);
-        });
-    })
-    .catch(error => console.log(error));
+// Connect to MongoDB
+mongoose.connect(MONGO_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => {
+    console.log("DB connected successfully.");
+    app.listen(PORT, () => {
+      console.log(`Server running on port: ${PORT}`);
+    });
+  })
+  .catch(error => console.log("MongoDB connection error:", error));
 
+// Routes
 app.use("/api", route);

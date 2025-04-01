@@ -7,6 +7,9 @@ export const User = () => {
   const navigate = useNavigate();
   const [users, setUser] = useState([]);
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredUsers, setFilteredUsers] = useState([]);
+
   // Fetch data from API
   const fetchDat = async () => {
     try {
@@ -42,11 +45,25 @@ export const User = () => {
     }
   };
 
+  const filterUsers = (userInput) =>{
+    if(!userInput){
+      setFilteredUsers([]);
+      return;
+
+    }
+    const matches = users.filter((userInfo)=>
+      userInfo.name.toLowerCase().includes(userInput.toLowerCase())
+    );
+    setFilteredUsers(matches);
+
+  };
+
   return (
     <div>
       <div>
       
-        <button onClick={()=> navigate('/')}>
+        <button onClick={()=> navigate('/')} type="button"
+                      className="btn btn-info">
         <i class="fa-solid fa-store"></i>
           Store Page</button>
       </div>
@@ -55,6 +72,25 @@ export const User = () => {
       <Link to="/add" type="button" className="btn btn-primary">
         Add user <i className="fa-solid fa-user-plus"></i>
       </Link>
+      <div className="searchBox">
+        <input placeholder="Enter name of user to search"
+        value={searchTerm}
+        onChange={(e) =>{
+          setSearchTerm(e.target.value);
+          filterUsers(e.target.value);
+        }}
+        ></input>
+        {filteredUsers.length > 0 && (
+          <ul className="search-dropdown">
+            {filteredUsers.map((userInfo)=>(
+              <li key={userInfo._id} onClick={() => navigate(`/profile/${userInfo._id}`)}>
+                {userInfo.name}
+              </li>
+            ))}
+          </ul>
+
+        )}
+      </div>
       {users.length === 0 ? (
         <div className='noDat'>
           <h3>No user data in the database</h3>
@@ -73,7 +109,7 @@ export const User = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => {
+            {filteredUsers.length === 0 && users.map((user, index) => {
               return (
                 <tr key={user._id || index}>
                   <td>{index + 1}</td>
@@ -111,6 +147,48 @@ export const User = () => {
                 </tr>
               );
             })}
+
+            {
+              filteredUsers.length > 0 && filteredUsers.map((user, index) => {
+                return (
+                  <tr key={user._id || index}>
+                    <td>{index + 1}</td>
+                    <td>{user.name}</td>
+                    <td>{user.phone}</td>
+                    <td>{user.address}</td>
+                    <td>{user.email}</td>
+                    <td className='actions'>
+                      <button
+                        onClick={() => navigate(`/update/${user._id}`)}
+                        type="button"
+                        className="btn btn-success"
+                        style={{ marginRight: '10px' }}
+                      >
+                        <i className="fa-solid fa-pen-to-square"></i>
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-danger"
+                        style={{ marginRight: '10px' }}
+                        onClick={() => deleteUser(user._id || user.id)}
+                      >
+                        <i className="fa-solid fa-trash"></i>
+                      </button>
+  
+                      <button
+                       onClick={() => navigate(`/profile/${user._id}`)}
+                        type="button"
+                        className="btn btn-info"
+                      >
+                        <i class="fa-solid fa-user"></i>
+  
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
+
+            }
           </tbody>
         </table>
       )}

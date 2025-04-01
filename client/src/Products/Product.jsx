@@ -138,7 +138,7 @@ export const Product = () => {
         <div key={category} className="category-section">
           <h1>{category}</h1>
           <div className="products-grid">
-            {productArray
+            {filteredProducts.length === 0 && productArray
 
               .filter((product) => product.category === category)
               .map((product) => (
@@ -161,6 +161,33 @@ export const Product = () => {
                   <h5>{product.stock > 0 ? `${product.stock} in stock` : "Out of stock" }</h5>
                 </div>
               ))}
+
+              {
+                filteredProducts.length > 0 && filteredProducts
+
+                .filter((product) => product.category === category)
+                .map((product) => (
+                  <div key={product._id} className="item">
+                    <Link to={`/product/${product.sku}/${id}`} state={{ user }}>
+                      <img src={product.thumbnail} alt={product.title} />
+                      <h4>{product.title}</h4>
+                      <h5>Rating: {product.rating}</h5>
+                      {starRating(product.rating)}
+                      <h5>$ {product.price}</h5>
+                    </Link>
+                    <Link to={`/updateproduct/${product.sku}`}>
+                    <button type="button" class="btn btn-warning" >
+                      <text style={{marginRight:'10px'}}>Edit</text>
+                    <i class="fa-solid fa-plus-minus"></i>
+                    </button>
+                    
+                    </Link>
+                  
+                    <h5>{product.stock > 0 ? `${product.stock} in stock` : "Out of stock" }</h5>
+                  </div>
+                ))
+
+              }
           </div>
         </div>
       ))}
