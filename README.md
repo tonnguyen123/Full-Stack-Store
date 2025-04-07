@@ -12,10 +12,12 @@ Donwload .Zip file from this resporitoy
 
 ***To run Server local host:
 cd server
+
 node index.js
 
 ***To run Client local host:
 cd client
+
 npm sart
 
 
