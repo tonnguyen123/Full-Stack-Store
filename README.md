@@ -44,7 +44,17 @@ You can email customer and send attachment:
 
 You can also view Purchase History of the customer:
 
-![transaction](https://github.com/user-attachments/assets/fe9f6708-dd13-450e-a0c5-66bfd7ded652)
+![transaction](https://github.com/user-attachments/assets/d08ddcc3-326e-4608-8f9e-9025b45ae250)
+
+
+You can view all products of your store to process sale for the chosen customer:
+![products](https://github.com/user-attachments/assets/c0a3c34d-53bc-41e5-943d-4409bbd11bd2)
+
+The search function will show responsive UI to show list of products based on searched query:
+
+![search product](https://github.com/user-attachments/assets/748069ad-23ee-4f71-bde4-3667ab19f3c0)
+
+
 
 
 
