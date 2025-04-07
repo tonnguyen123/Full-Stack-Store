@@ -10,12 +10,14 @@ How to run:
 
 Donwload .Zip file from this resporitoy
 
-***To run Server local host:
+From the terminal or command prompt inside the proejct folder of VS Code:
+
+To run Server local host:
 cd server
 
 node index.js
 
-***To run Client local host:
+To run Client local host:
 cd client
 
 npm sart
