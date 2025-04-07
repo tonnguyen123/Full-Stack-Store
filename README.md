@@ -26,6 +26,17 @@ After you start the app at local host. Some pictures below will navigate you thr
 
 ![Main Page](https://github.com/user-attachments/assets/534a58cb-f6b7-4155-bfc0-7663d4af022b)
 
+If you want to manage Inventory of your store and view products:
+![product page](https://github.com/user-attachments/assets/4370169b-d5e1-4d0b-b7e1-7fdd7aa64e19)
+
+Sale Chart to understand what types of product and categories that are sold:
+![sale by product](https://github.com/user-attachments/assets/7031c1b2-08d2-410e-973b-00087d9a0fdd)
+
+![sale by category](https://github.com/user-attachments/assets/8b6bed16-1834-4455-9190-653ba49b16b4)
+
+
+
+
 If you want to manage customers and process sale for customer, you click 'Manage Customers' then it will show as below:
 
 
