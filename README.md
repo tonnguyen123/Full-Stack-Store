@@ -22,5 +22,9 @@ cd client
 
 npm sart
 
+After you start the app at local host. Some pictures below will navigate you through functions of the web app:
+
+![Manage Users Navigation](https://github.com/user-attachments/assets/74a2bd3f-16ef-44df-9770-3404dcf6fd27)
+
 
 Thank you!
