@@ -31,5 +31,13 @@ If you want to manage customers and process sale for customer, you click 'Manage
 
 ![Manage Users Navigation](https://github.com/user-attachments/assets/74a2bd3f-16ef-44df-9770-3404dcf6fd27)
 
+This is UI to add customer's information:
+![add customer](https://github.com/user-attachments/assets/666df3da-1a8b-4380-b698-598a5dd30324)
+
+This is UI to update customer's information. Current customer's information are filled in input box and you can edit them and save changes or undo changes you made:
+
+![Update info](https://github.com/user-attachments/assets/24abedcc-bd35-438a-9440-741535858c8b)
+
+
 
 Thank you!
