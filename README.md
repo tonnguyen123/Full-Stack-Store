@@ -54,6 +54,10 @@ The search function will show responsive UI to show list of products based on se
 
 ![search product](https://github.com/user-attachments/assets/748069ad-23ee-4f71-bde4-3667ab19f3c0)
 
+Process Payment for the chosen customer:
+![cart](https://github.com/user-attachments/assets/ce188891-e349-4033-8cb7-104edd128e26)
+
+
 
 
 
