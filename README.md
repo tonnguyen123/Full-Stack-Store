@@ -38,6 +38,10 @@ This is UI to update customer's information. Current customer's information are 
 
 ![Update info](https://github.com/user-attachments/assets/24abedcc-bd35-438a-9440-741535858c8b)
 
+You can email customer and send attachment:
+
+![email](https://github.com/user-attachments/assets/c23803d5-57ff-4ccc-9fc5-f0ff8082c715)
+
 
 
 Thank you!
