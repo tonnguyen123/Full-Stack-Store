@@ -42,6 +42,10 @@ You can email customer and send attachment:
 
 ![email](https://github.com/user-attachments/assets/c23803d5-57ff-4ccc-9fc5-f0ff8082c715)
 
+You can also view Purchase History of the customer:
+
+![transaction](https://github.com/user-attachments/assets/fe9f6708-dd13-450e-a0c5-66bfd7ded652)
+
 
 
 Thank you!
