@@ -24,6 +24,11 @@ npm sart
 
 After you start the app at local host. Some pictures below will navigate you through functions of the web app:
 
+![Main Page](https://github.com/user-attachments/assets/534a58cb-f6b7-4155-bfc0-7663d4af022b)
+
+If you want to manage customers and process sale for customer, you click 'Manage Customers' then it will show as below:
+
+
 ![Manage Users Navigation](https://github.com/user-attachments/assets/74a2bd3f-16ef-44df-9770-3404dcf6fd27)
 
 
